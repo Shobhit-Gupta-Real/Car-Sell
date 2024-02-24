@@ -46,7 +46,10 @@ MongoClient.connect(CONNECTION_STRING)
             {},
             (err, token)=>{
                 if(err) throw err
-                res.cookie('token', token).json({
+                res.cookie('token', token,{
+                    secure: true, // Cookie sent over HTTPS only
+                    sameSite: 'None' // Allow cross-site cookies
+                }).json({
                     id: userDoc._id,
                     username
                 })
@@ -69,7 +72,10 @@ MongoClient.connect(CONNECTION_STRING)
             {},   
             (err, token)=>{ 
             if(err) throw err;
-            res.cookie('token', token).json({
+            res.cookie('token', token,{
+                secure: true, // Cookie sent over HTTPS only
+                sameSite: 'None' // Allow cross-site cookies
+            }).json({
                 id:userDoc._id,
                 username,
             })
@@ -91,7 +97,10 @@ MongoClient.connect(CONNECTION_STRING)
     })
 
     app.post('/logout', async(req,res)=>{
-        res.cookie('token', '').json("ok")
+        res.cookie('token', '',{
+            secure: true, // Cookie sent over HTTPS only
+            sameSite: 'None' // Allow cross-site cookies
+        }).json("ok")
     })
     app.get('/user/:username', async(req,res)=>{
         const {username} = req.params
@@ -140,7 +149,10 @@ MongoClient.connect(CONNECTION_STRING)
             {},
             (err, token)=>{
                 if(err) throw err
-                res.cookie('token', token).json({
+                res.cookie('token', token,{
+                    secure: true, // Cookie sent over HTTPS only
+                    sameSite: 'None' // Allow cross-site cookies
+                }).json({
                     id: userDoc._id,
                     username
                 })
@@ -162,7 +174,10 @@ MongoClient.connect(CONNECTION_STRING)
             {},   
             (err, token)=>{ 
             if(err) throw err;
-            res.cookie('token', token).json({
+            res.cookie('token', token,{
+                secure: true, // Cookie sent over HTTPS only
+                sameSite: 'None' // Allow cross-site cookies
+            }).json({
                 id:userDoc._id,
                 username,
             })
