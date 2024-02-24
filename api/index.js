@@ -10,13 +10,10 @@ const salt = bcrypt.genSaltSync(10);
 import jwt from 'jsonwebtoken'; 
 const secret = process.env.SECRET;
 
-const corsOptions = {
-    credentials:true, 
-    origin: [process.env.FRONTEND_URL], 
-    methods: ["POST", "GET", "PUT"]
-}
+
 const app = express()
-app.use(cors(corsOptions))
+app.options('*', cors())
+app.use(cors({origin: '*'}))
 app.use(express.json())
 app.use(cookieParser())
 const CONNECTION_STRING=process.env.MONGOOSE_CONNECT;
