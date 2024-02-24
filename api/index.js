@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
-import cors from 'cors';
+const cors = require('cors')
 import multer from 'multer';
 import { MongoClient, ObjectId } from 'mongodb';
 import cookieParser from 'cookie-parser';
