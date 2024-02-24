@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
-const cors = require('cors')
+import cors from 'cors'
 import multer from 'multer';
 import { MongoClient, ObjectId } from 'mongodb';
 import cookieParser from 'cookie-parser';
@@ -16,7 +16,7 @@ const corsOptions = {
     methods: ["POST", "GET"]
 }
 const app = express()
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 const CONNECTION_STRING=process.env.MONGOOSE_CONNECT;
