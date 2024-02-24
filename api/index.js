@@ -12,7 +12,7 @@ const secret = process.env.SECRET;
 
 const corsOptions = {
     credentials:true, 
-    origin: ['http://localhost:5173'], 
+    origin: [process.env.FRONTEND_URL], 
     methods: ["POST", "GET", "PUT"]
 }
 const app = express()
