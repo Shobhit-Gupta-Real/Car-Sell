@@ -25,18 +25,14 @@
     const sold=()=>{
       page.set(3)
     }
-    let Type = ''
-    let name = ''
-    let model = ''
-    onMount(async()=>{
-      const response = await fetch(`http://localhost:3000/dealer/${$user.username}`, {credentials: 'include'})
-      const value = await response.json()
-      take.set(value)
-    },[])
-    const handleLogin= () =>{
-
-    }
-    setContext('dealer', take)
+    
+    // onMount(async()=>{
+    //   const response = await fetch(`http://localhost:3000/dealer/${$user.username}`, {credentials: 'include'})
+    //   const value = await response.json()
+    //   take.set(value)
+    // },[])
+    
+setContext('dealer', take)
 </script>
 <div class="mainpage">
 <div class='sidebar'>

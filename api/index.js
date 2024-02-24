@@ -30,12 +30,14 @@ MongoClient.connect(CONNECTION_STRING)
 
     const database = client.db(DATABASENAME);
     const usercollection = database.collection('usercollection')
+    const carscollection = database.collection('cars')
+    const dealercollection = database.collection('dealercollection')
 
     app.post('/usersignup', async(req,res)=>{
         const {username, password} = req.body
         
         try{const userDoc = await usercollection.insertOne({
-            username, password : bcrypt.hashSync(password, salt),
+            username, password : bcrypt.hashSync(password, salt), cars:[]
         })
         jwt.sign({username, id: userDoc._id},
             secret,
@@ -89,6 +91,33 @@ MongoClient.connect(CONNECTION_STRING)
     app.post('/logout', async(req,res)=>{
         res.cookie('token', '').json("ok")
     })
+    app.get('/user/:username', async(req,res)=>{
+        const {username} = req.params
+        const userDoc = await usercollection.findOne({username})
+        res.json(userDoc)
+    })
+    app.post('/cars/:carid/buy/:userid', async(req,res)=>{
+        const {carid, userid} = req.params
+        const carId = new ObjectId(carid)
+        const userId = new ObjectId(userid)
+        const carDoc = await carscollection.findOneAndUpdate(
+            {_id: carId},
+            { $set: { available: false } },
+            {new: true});
+        const userDoc = await usercollection.findOneAndUpdate(
+            {_id: userId},
+            {$push: {cars: carDoc}},
+            {new: true});
+        const dealerDoc = await dealercollection.findOneAndUpdate(
+            {username: carDoc.username},
+            {
+            $push: { soldcars: carDoc }, 
+            $pull: { "cars": {"insertedId": carDoc._id}}    
+            },
+            {new: true})
+        
+        res.json(carDoc)
+    })
 })
 
 // dealer 
@@ -102,7 +131,7 @@ MongoClient.connect(CONNECTION_STRING)
         const {username, password} = req.body
         
         try{const userDoc = await dealercollection.insertOne({
-            username, password : bcrypt.hashSync(password, salt), cars:[]
+            username, password : bcrypt.hashSync(password, salt), cars:[], soldcars:[]
         })
         jwt.sign({username, id: userDoc._id},
             secret,
@@ -160,11 +189,15 @@ MongoClient.connect(CONNECTION_STRING)
     const database = client.db(DATABASENAME)
     const carscollection = database.collection('cars')
     const dealercollection = database.collection('dealercollection')
+    app.get('/carsavailable', async(req,res)=>{
+        const carDoc = await carscollection.find({available: true}).toArray();
+        res.json(carDoc)
+    })
     app.post('/dealer/addcar/:username', async(req,res)=>{
         const {username} = req.params
         const {Type, name, model} = req.body
         const carDoc = await carscollection.insertOne({
-            Type, name, model
+            Type, name, model, username, available: true
         })
         const dealerDoc = await dealercollection.findOneAndUpdate(
             {username},

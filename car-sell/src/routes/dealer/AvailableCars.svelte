@@ -26,6 +26,5 @@
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
-  
 }
 </style>
