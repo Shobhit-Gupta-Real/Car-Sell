@@ -7,7 +7,7 @@
     import {BACKEND_URL} from '../env.js'
     export let car;
     onMount(async()=>{
-      const response = await fetch(`${BACKEND_URL}/cars/${car}`, {credentials: 'include', mode: 'no-cors'})
+      const response = await fetch(`${BACKEND_URL}/cars/${car}`, {credentials: 'include'})
       const value = await response.json()
       api.set(value)
     },[])

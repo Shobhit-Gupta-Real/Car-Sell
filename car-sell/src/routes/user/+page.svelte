@@ -19,13 +19,13 @@
 	page.set(1)
 	const discover=async()=>{
       page.set(2)
-	  const dealer = await fetch(`${BACKEND_URL}/alldealers`, {credentials:'include', mode: 'no-cors'})
+	  const dealer = await fetch(`${BACKEND_URL}/alldealers`, {credentials:'include'})
 	  const deal = await dealer.json()
 	  alldealers.set(deal)
     }
 	const available= async()=>{
       page.set(1)
-	  const cars = await fetch(`${BACKEND_URL}/carsavailable`, {credentials: 'include', mode: 'no-cors'})
+	  const cars = await fetch(`${BACKEND_URL}/carsavailable`, {credentials: 'include'})
 	  const record = await cars.json()
       carsavailabe.set(record)
     }
@@ -33,7 +33,7 @@
       page.set(3)
     }
 	afterUpdate(async()=>{
-      const response = await fetch(`${BACKEND_URL}/user/${$user.username}`, {credentials: 'include', mode: 'no-cors'})
+      const response = await fetch(`${BACKEND_URL}/user/${$user.username}`, {credentials: 'include'})
       const value = await response.json()
       usercatalogue.set(value)
     })

@@ -8,8 +8,7 @@
 	const buy = async() =>{
 		const response = await fetch(`${BACKEND_URL}/cars/${car._id}/buy/${$usercatalogue._id}`,{
 			credentials: 'include',
-			method: 'POST',
-			mode: 'no-cors'
+			method: 'POST'
 		})
 		if(response.status === 200){
 			window.location.reload();

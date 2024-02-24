@@ -9,8 +9,7 @@
       method:'POST',
       body: JSON.stringify({username, password}),
       headers: {'Content-Type':'application/json'},
-      credentials: 'include',
-      mode: 'no-cors'
+      credentials: 'include'
     })
     if(response.status === 200){
         alert('Signed up!')

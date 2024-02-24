@@ -13,7 +13,6 @@
       body: JSON.stringify({Type, name, model}),
       headers: {'Content-Type':'application/json'},
       credentials: 'include',
-      mode: 'no-cors'
       })
       if(response.status===200){
         alert('Added Car!')
