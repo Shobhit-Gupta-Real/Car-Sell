@@ -26,7 +26,7 @@
     }
     
     afterUpdate(async()=>{
-      const response = await fetch(`${BACKEND_URL}/dealer/${$user.username}`, {credentials: 'include'})
+      const response = await fetch(`${BACKEND_URL}/dealer/${$user.username}`, {credentials: 'include', mode: 'no-cors'})
       const value = await response.json()
       take.set(value)
     })

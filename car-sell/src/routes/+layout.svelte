@@ -8,7 +8,7 @@
     const apiData = writable()
     const inout = writable()
     onMount(()=>{
-        fetch(`${BACKEND_URL}/profile`, {credentials: 'include'})
+        fetch(`${BACKEND_URL}/profile`, {credentials: 'include', mode: 'no-cors'})
         .then(response=>{
             response.json().then(data=>{
                 apiData.set(data);
