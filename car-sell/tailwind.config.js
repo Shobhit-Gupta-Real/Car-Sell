@@ -5,7 +5,8 @@ export default {
     extend: {
       margin:{
         '40': '10rem',
-        '48': '12rem'
+        '48': '12rem',
+        '50': '18rem'
       }
     }
   },

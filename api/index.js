@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);
@@ -16,9 +16,11 @@ const corsOptions = {
 const app = express()
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use(cookieParser())
 const CONNECTION_STRING="mongodb+srv://cars:K1rJ8piRkt6UVLqh@cluster0.57lvsy8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const DATABASENAME="user";
 
+// user
 MongoClient.connect(CONNECTION_STRING)
 .then(client=>{
     console.log("Connected to MongoDB")
@@ -40,15 +42,15 @@ MongoClient.connect(CONNECTION_STRING)
             {},
             (err, token)=>{
                 if(err) throw err
-                res.cookie('token', token.json({
+                res.cookie('token', token).json({
                     id: userDoc._id,
                     username
-                }))
+                })
             })
-        res.json(userDoc)
+        // res.json(userDoc)
         }catch(e){
                 res.status(400).json(e)
-            }
+        }
     })
 
     app.post('/userlogin', async(req,res)=>{
@@ -74,11 +76,110 @@ MongoClient.connect(CONNECTION_STRING)
             res.status(500).json(e)
         }
     })
+    
+    app.get('/profile', (req,res)=>{
+        const {token} = req.cookies
+        jwt.verify(token, secret, {}, (err, info)=>{ //it will verfy our token
+            if(err) throw err
+            res.json(info)
+        })
+        res.json(req.cookies)
+    })
 
+    app.post('/logout', async(req,res)=>{
+        res.cookie('token', '').json("ok")
+    })
 })
 
+// dealer 
+MongoClient.connect(CONNECTION_STRING)
+.then(client=>{
+    console.log("Connected Dealer")
+    const database = client.db(DATABASENAME)
+    const dealercollection = database.collection('dealercollection')
 
-
+    app.post('/dealersignup', async(req,res)=>{
+        const {username, password} = req.body
+        
+        try{const userDoc = await dealercollection.insertOne({
+            username, password : bcrypt.hashSync(password, salt), cars:[]
+        })
+        jwt.sign({username, id: userDoc._id},
+            secret,
+            {},
+            (err, token)=>{
+                if(err) throw err
+                res.cookie('token', token).json({
+                    id: userDoc._id,
+                    username
+                })
+            })
+        // res.json(userDoc)
+        }catch(e){
+                res.status(400).json(e)
+        }
+    })
+    app.post('/dealerlogin', async(req,res)=>{
+        const {username, password} = req.body
+        try{
+        const userDoc = await dealercollection.findOne({username})
+        const passOk = bcrypt.compareSync(password, userDoc.password)
+        if(passOk){
+        jwt.sign(
+            {username, id:userDoc._id}, //payload
+            secret, 
+            {},   
+            (err, token)=>{ 
+            if(err) throw err;
+            res.cookie('token', token).json({
+                id:userDoc._id,
+                username,
+            })
+        })
+        }
+        // res.json(userDoc)
+        }catch(e){
+            res.status(500).json(e)
+        }
+    })
+    app.get('/dealer/:dealername', async(req,res)=>{
+        const {dealername} = req.params
+        console.log(dealername)
+        try{
+            const dealerDoc = await dealercollection.findOne({username: dealername})
+            res.json(dealerDoc)
+        }catch{
+            res.status(500).json(e)
+        }
+    })
+})
+// cars 
+MongoClient.connect(CONNECTION_STRING)
+.then(client=>{
+    console.log("Connected Cars")
+    const database = client.db(DATABASENAME)
+    const carscollection = database.collection('cars')
+    const dealercollection = database.collection('dealercollection')
+    app.post('/dealer/addcar/:username', async(req,res)=>{
+        const {username} = req.params
+        const {Type, name, model} = req.body
+        const carDoc = await carscollection.insertOne({
+            Type, name, model
+        })
+        const dealerDoc = await dealercollection.findOneAndUpdate(
+            {username},
+            {$push: {cars: carDoc}},
+            {new: true}
+        )
+        res.json(carDoc)
+    })
+    app.get('/cars/:id', async(req,res)=>{
+        const {id} = req.params
+        const objectId = new ObjectId(id)
+        const carDoc = await carscollection.findOne({_id: objectId})
+        res.json(carDoc)
+    })
+})
 
 
 // K1rJ8piRkt6UVLqh

@@ -25,7 +25,7 @@ const handleLogin = async() => {
 
 
 <form on:submit|preventDefault={handleLogin} class="max-w-400 mx-auto gap-2 flex flex-col bg-gray-600 p-8 rounded-2xl mt-12">
-<h1 class="text-2xl font-bold block bg-transparent text-white text-center">Login</h1>
+<h1 class="text-2xl font-bold block bg-transparent text-white text-center">User Login</h1>
 <label for="username">Username:</label>
 <input type="text" id="username" class="box-border block mb-5 w-full py-2 px-3 text-lg border-2 border-gray-400 bg-gray-200 rounded hover:border-purple-500" bind:value={username} />
 

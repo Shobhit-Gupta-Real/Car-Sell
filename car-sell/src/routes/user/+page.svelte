@@ -13,7 +13,7 @@
 
 {#if loggedIn}
 <p>You are logged in!</p>
-<p>Welcome {$user?.name}</p>
+<p>Welcome {$user?.username}</p>
 {:else}
 <p>You are not logged in. Please log in to access the content.</p> 
 {/if}
