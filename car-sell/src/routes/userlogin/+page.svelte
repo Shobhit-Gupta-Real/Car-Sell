@@ -11,8 +11,7 @@ const handleLogin = async() => {
       method:'POST',
       body: JSON.stringify({username, password}),
       headers: {'Content-Type':'application/json'},
-      credentials: 'same-origin',
-      mode: 'no-cors'
+      credentials: 'include',
     })
     if(response.status === 200){
         alert('Loged In!')
