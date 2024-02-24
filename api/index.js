@@ -1,13 +1,11 @@
-import express from 'express';
-import dotenv from 'dotenv';
-dotenv.config();
-import cors from 'cors'
-import multer from 'multer';
-import { MongoClient, ObjectId } from 'mongodb';
-import cookieParser from 'cookie-parser';
-import bcrypt from 'bcryptjs';
+const express = require('express')
+require('dotenv').config()
+const cors = require('cors')
+const { MongoClient, ObjectId } = require('mongodb');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken'); 
 const salt = bcrypt.genSaltSync(10);
-import jwt from 'jsonwebtoken'; 
 const secret = process.env.SECRET;
 
 const corsOptions = {
