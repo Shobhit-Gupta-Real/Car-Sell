@@ -14,10 +14,7 @@ const corsOptions = {
     methods: ["POST", "GET"]
 }
 const app = express()
-app.use(cors({
-    origin: true,
-    credentials: true
-}))
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 const CONNECTION_STRING=process.env.MONGOOSE_CONNECT;
