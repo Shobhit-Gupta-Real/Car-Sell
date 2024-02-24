@@ -6,9 +6,10 @@
     /** @type {import('./$types').PageData} */
     import { writable, derived } from 'svelte/store';
     import {navigate} from 'svelte-routing'
-    import { onMount } from "svelte";
+    import { onMount, afterUpdate } from "svelte";
     const take = writable()
     import { getContext, setContext } from 'svelte';
+    import Soldcars from './Soldcars.svelte';
     const user = getContext('user');
     const page = writable()
     take.set({})
@@ -18,19 +19,16 @@
     }
     const available= async()=>{
       page.set(1)
-      const response = await fetch(`http://localhost:3000/dealer/${$user.username}`, {credentials: 'include'})
-      const value = await response.json()
-      take.set(value)
     }
-    const sold=()=>{
+    const sold=async()=>{
       page.set(3)
     }
     
-    // onMount(async()=>{
-    //   const response = await fetch(`http://localhost:3000/dealer/${$user.username}`, {credentials: 'include'})
-    //   const value = await response.json()
-    //   take.set(value)
-    // },[])
+    afterUpdate(async()=>{
+      const response = await fetch(`http://localhost:3000/dealer/${$user.username}`, {credentials: 'include'})
+      const value = await response.json()
+      take.set(value)
+    })
     
 setContext('dealer', take)
 </script>
@@ -50,6 +48,7 @@ setContext('dealer', take)
     <Caraddform />
     <!-- Show Component2 if page is 2 -->
 {:else if $page === 3}
+<Soldcars/>
     <!-- Show Component3 if page is 3 -->
     
 {/if}

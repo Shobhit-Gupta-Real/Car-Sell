@@ -1,18 +1,27 @@
 <script>
-  import CarsBuy from './CarsBuy.svelte';
+  import Cards from './Cards.svelte';
+
+  import Mycars from './Mycars.svelte';
+
 
 	import { writable, derived } from 'svelte/store';
 	import { getContext, setContext, afterUpdate } from 'svelte';
 	const user = getContext('user');
 	import { onMount } from "svelte";
+    import Discoverdeal from './discoverdeal.svelte';
     const page = writable()
 	const carsavailabe = writable()
 	carsavailabe.set({})
 	const usercatalogue = writable()
 	usercatalogue.set({})
+	const alldealers = writable()
+	alldealers.set({})
 	page.set(1)
-	const discover=()=>{
+	const discover=async()=>{
       page.set(2)
+	  const dealer = await fetch('http://localhost:3000/alldealers', {credentials:'include'})
+	  const deal = await dealer.json()
+	  alldealers.set(deal)
     }
 	const available= async()=>{
       page.set(1)
@@ -43,13 +52,12 @@
 </section>
 </div>
 {#if $page === 1}
-<CarsBuy />
+<Cards cars={$carsavailabe}/>
 {:else if $page === 2}
-<h1>hello</h1>
+<Discoverdeal cars={$alldealers}/>
     <!-- Show Component2 if page is 2 -->
 {:else if $page === 3}
-<h1>hello</h1>
-
+<Mycars cars={$usercatalogue.cars}/>
     <!-- Show Component3 if page is 3 -->    
 {/if}
 </div>

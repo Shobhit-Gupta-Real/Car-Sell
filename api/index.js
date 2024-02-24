@@ -171,9 +171,12 @@ MongoClient.connect(CONNECTION_STRING)
             res.status(500).json(e)
         }
     })
+    app.get('/alldealers', async(req,res)=>{
+        const response = await dealercollection.find({}).toArray();
+        res.json(response)
+    })
     app.get('/dealer/:dealername', async(req,res)=>{
         const {dealername} = req.params
-        console.log(dealername)
         try{
             const dealerDoc = await dealercollection.findOne({username: dealername})
             res.json(dealerDoc)
