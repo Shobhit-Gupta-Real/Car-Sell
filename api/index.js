@@ -10,13 +10,9 @@ const salt = bcrypt.genSaltSync(10);
 import jwt from 'jsonwebtoken'; 
 const secret = process.env.SECRET;
 
-const corsOptions = {
-    credentials:true, 
-    origin: ['https://car-sell-84na.vercel.app'], 
-    methods: ["POST", "GET", "PUT"]
-}
+
 const app = express()
-app.use('*',cors(corsOptions))
+app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 const CONNECTION_STRING=process.env.MONGOOSE_CONNECT;
