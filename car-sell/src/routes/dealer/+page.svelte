@@ -10,6 +10,7 @@
     const take = writable()
     import { getContext, setContext } from 'svelte';
     import Soldcars from './Soldcars.svelte';
+    import {BACKEND_URL} from '../env.js'
     const user = getContext('user');
     const page = writable()
     take.set({})
@@ -25,7 +26,7 @@
     }
     
     afterUpdate(async()=>{
-      const response = await fetch(`http://localhost:3000/dealer/${$user.username}`, {credentials: 'include'})
+      const response = await fetch(`${BACKEND_URL}/dealer/${$user.username}`, {credentials: 'include'})
       const value = await response.json()
       take.set(value)
     })

@@ -1,15 +1,14 @@
 <script>
     /** @type {import('./$types').PageData} */
-    import { writable, derived } from 'svelte/store';
-    import {navigate} from 'svelte-routing'
     import { getContext } from 'svelte';
+    import {BACKEND_URL} from '../env.js'
     const user = getContext('user');
     
     let Type = ''
     let name = ''
     let model = ''
     const addcar = async() =>{
-      const response = await fetch(`http://localhost:3000/dealer/addcar/${$user.username}`,{
+      const response = await fetch(`${BACKEND_URL}/dealer/addcar/${$user.username}`,{
       method:'POST',
       body: JSON.stringify({Type, name, model}),
       headers: {'Content-Type':'application/json'},

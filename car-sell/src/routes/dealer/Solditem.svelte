@@ -1,10 +1,6 @@
 <script>
 
     /** @type {import('./$types').PageData} */
-    import { writable, derived } from 'svelte/store';
-    import { getContext } from 'svelte';
-    const user = getContext('user');
-    const dealer = getContext('dealer')
     export let car;
     
 </script>

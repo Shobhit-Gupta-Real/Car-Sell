@@ -1,10 +1,6 @@
 <script>
   import Carcard from './Carcard.svelte';
 
- import { getContext, setContext } from 'svelte';
-    import Dealerlist from './dealerlist.svelte';
- const user = getContext('user');
- const usercatalogue = getContext('usercatalogue')
  export let cars;
 
 </script>

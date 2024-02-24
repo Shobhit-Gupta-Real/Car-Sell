@@ -1,7 +1,4 @@
 <script>
- import { getContext, setContext } from 'svelte';
- const user = getContext('user');
- const usercatalogue = getContext('usercatalogue')
  export let car;
 
 </script>

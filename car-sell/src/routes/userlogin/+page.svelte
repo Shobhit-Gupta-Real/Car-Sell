@@ -1,11 +1,13 @@
 <script>
 /** @type {import('./$types').PageData} */
 import {navigate} from 'svelte-routing'
+import {BACKEND_URL} from '../env.js'
+
 let username = '';
 let password = '';
 
 const handleLogin = async() => {
-    const response = await fetch('http://localhost:3000/userlogin',{
+    const response = await fetch(`${BACKEND_URL}/userlogin`,{
       method:'POST',
       body: JSON.stringify({username, password}),
       headers: {'Content-Type':'application/json'},

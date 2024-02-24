@@ -2,15 +2,12 @@
 
     /** @type {import('./$types').PageData} */
     import { writable, derived } from 'svelte/store';
-    import {navigate} from 'svelte-routing'
     import { onMount } from "svelte";
     const api = writable()
-    import { getContext } from 'svelte';
-    const user = getContext('user');
-    const dealer = getContext('dealer')
+    import {BACKEND_URL} from '../env.js'
     export let car;
     onMount(async()=>{
-      const response = await fetch(`http://localhost:3000/cars/${car}`, {credentials: 'include'})
+      const response = await fetch(`${BACKEND_URL}/cars/${car}`, {credentials: 'include'})
       const value = await response.json()
       api.set(value)
     },[])

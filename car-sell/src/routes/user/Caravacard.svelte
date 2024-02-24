@@ -1,14 +1,12 @@
 <script>
-	import { writable, derived } from 'svelte/store';
 	import { getContext, setContext } from 'svelte';
-	const user = getContext('user');
 	const usercatalogue = getContext('usercatalogue')
-	import { onMount } from "svelte";
-	
+	import {BACKEND_URL} from '../env.js'
+
 	// Retrieve user store from context
 	export let car;
 	const buy = async() =>{
-		const response = await fetch(`http://localhost:3000/cars/${car._id}/buy/${$usercatalogue._id}`,{
+		const response = await fetch(`${BACKEND_URL}/cars/${car._id}/buy/${$usercatalogue._id}`,{
 			credentials: 'include',
 			method: 'POST'
 		})

@@ -1,4 +1,6 @@
 import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 import cors from 'cors';
 import multer from 'multer';
 import { MongoClient, ObjectId } from 'mongodb';
@@ -6,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);
 import jwt from 'jsonwebtoken'; 
-const secret = 'asdfjkjlj3453';
+const secret = process.env.SECRET;
 
 const corsOptions = {
     credentials:true, 
@@ -17,8 +19,8 @@ const app = express()
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
-const CONNECTION_STRING="mongodb+srv://cars:K1rJ8piRkt6UVLqh@cluster0.57lvsy8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const DATABASENAME="user";
+const CONNECTION_STRING=process.env.MONGOOSE_CONNECT;
+const DATABASENAME=process.env.DATABASE_USERNAME;
 
 // user
 MongoClient.connect(CONNECTION_STRING)
@@ -29,9 +31,9 @@ MongoClient.connect(CONNECTION_STRING)
     })
 
     const database = client.db(DATABASENAME);
-    const usercollection = database.collection('usercollection')
-    const carscollection = database.collection('cars')
-    const dealercollection = database.collection('dealercollection')
+    const usercollection = database.collection(process.env.USER_COLLECTION)
+    const carscollection = database.collection(process.env.CARS_COLLECTION)
+    const dealercollection = database.collection(process.env.DEALER_COLLECTION)
 
     app.post('/usersignup', async(req,res)=>{
         const {username, password} = req.body
@@ -125,7 +127,7 @@ MongoClient.connect(CONNECTION_STRING)
 .then(client=>{
     console.log("Connected Dealer")
     const database = client.db(DATABASENAME)
-    const dealercollection = database.collection('dealercollection')
+    const dealercollection = database.collection(process.env.DEALER_COLLECTION)
 
     app.post('/dealersignup', async(req,res)=>{
         const {username, password} = req.body
@@ -190,8 +192,8 @@ MongoClient.connect(CONNECTION_STRING)
 .then(client=>{
     console.log("Connected Cars")
     const database = client.db(DATABASENAME)
-    const carscollection = database.collection('cars')
-    const dealercollection = database.collection('dealercollection')
+    const carscollection = database.collection(process.env.CARS_COLLECTION)
+    const dealercollection = database.collection(process.env.DEALER_COLLECTION)
     app.get('/carsavailable', async(req,res)=>{
         const carDoc = await carscollection.find({available: true}).toArray();
         res.json(carDoc)
@@ -216,8 +218,3 @@ MongoClient.connect(CONNECTION_STRING)
         res.json(carDoc)
     })
 })
-
-
-// K1rJ8piRkt6UVLqh
-// cars
-// mongodb+srv://cars:K1rJ8piRkt6UVLqh@cluster0.57lvsy8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

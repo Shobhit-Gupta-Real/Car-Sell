@@ -3,10 +3,8 @@
   
   
       /** @type {import('./$types').PageData} */
-      import { writable, derived } from 'svelte/store';
       import { getContext } from 'svelte';
     import Solditem from './Solditem.svelte';
-      const user = getContext('user');
       const dealer = getContext('dealer')
   </script>
   <div class="cards">

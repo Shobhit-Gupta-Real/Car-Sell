@@ -7,7 +7,7 @@
 	import { writable, derived } from 'svelte/store';
 	import { getContext, setContext, afterUpdate } from 'svelte';
 	const user = getContext('user');
-	import { onMount } from "svelte";
+	import {BACKEND_URL} from '../env.js'
     import Discoverdeal from './discoverdeal.svelte';
     const page = writable()
 	const carsavailabe = writable()
@@ -19,13 +19,13 @@
 	page.set(1)
 	const discover=async()=>{
       page.set(2)
-	  const dealer = await fetch('http://localhost:3000/alldealers', {credentials:'include'})
+	  const dealer = await fetch(`${BACKEND_URL}/alldealers`, {credentials:'include'})
 	  const deal = await dealer.json()
 	  alldealers.set(deal)
     }
 	const available= async()=>{
       page.set(1)
-	  const cars = await fetch(`http://localhost:3000/carsavailable`, {credentials: 'include'})
+	  const cars = await fetch(`${BACKEND_URL}/carsavailable`, {credentials: 'include'})
 	  const record = await cars.json()
       carsavailabe.set(record)
     }
@@ -33,7 +33,7 @@
       page.set(3)
     }
 	afterUpdate(async()=>{
-      const response = await fetch(`http://localhost:3000/user/${$user.username}`, {credentials: 'include'})
+      const response = await fetch(`${BACKEND_URL}/user/${$user.username}`, {credentials: 'include'})
       const value = await response.json()
       usercatalogue.set(value)
     })

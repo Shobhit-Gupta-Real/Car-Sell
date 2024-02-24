@@ -4,10 +4,11 @@
 	import { writable, derived } from 'svelte/store';
     import { append } from 'svelte/internal';
     import {navigate} from 'svelte-routing'
+    import { BACKEND_URL } from './env.js';
     const apiData = writable()
     const inout = writable()
     onMount(()=>{
-        fetch("http://localhost:3000/profile", {credentials: 'include'})
+        fetch(`${BACKEND_URL}/profile`, {credentials: 'include'})
         .then(response=>{
             response.json().then(data=>{
                 apiData.set(data);
@@ -18,7 +19,7 @@
     })
 
     const loggingout = async() =>{
-        const gone = await fetch("http://localhost:3000/logout",{
+        const gone = await fetch(`${BACKEND_URL}/logout`,{
             credentials: 'include',
             method: 'POST',
         })
