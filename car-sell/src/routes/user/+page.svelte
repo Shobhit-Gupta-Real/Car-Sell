@@ -71,6 +71,7 @@
 	display: flex;
 	width: 22rem;
 	height: 100vh;
+	margin-bottom: 1rem;
 	padding: 0.99375rem;
 	justify-content: space-between;
 	flex-direction: column;

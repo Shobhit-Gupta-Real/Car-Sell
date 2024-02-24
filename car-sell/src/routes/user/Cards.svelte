@@ -5,7 +5,7 @@
 	  // Retrieve user store from context
   </script>
   
-  <div class="cards">
+  <div class="cards mb-8">
   {#if cars && cars.length > 0}
   {#each cars as car}
   <Caravacard car={car}/>

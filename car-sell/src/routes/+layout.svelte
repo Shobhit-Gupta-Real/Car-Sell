@@ -40,7 +40,7 @@
     <a href="/"><span class="text-purple-700 text-3xl font-bold">Car-Sell</span></a> 
     </div>
     {#if $inout}
-    Welcome {$apiData.username}
+    <h1 class="text-xl text-slate-600 font-bold rounded-xl">Welcome {$apiData.username}</h1>
     <button on:click={loggingout} class="bg-purple-700 hover:bg-blue-600 text-white font-semibold py-2 px-8 rounded">
         Logout
     </button>

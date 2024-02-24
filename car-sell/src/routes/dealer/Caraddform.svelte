@@ -22,8 +22,8 @@
     }
 </script>
 <div class="addcar ml-50">
-  <form on:submit|preventDefault={addcar} class="max-w-800 mx-auto gap-2 flex flex-col bg-gray-600 p-8 rounded-2xl mt-12">
-    <h1 class="text-2xl font-bold block bg-transparent text-white text-center">Add Car</h1>
+  <form on:submit|preventDefault={addcar} class="bg-white p-8 rounded-lg shadow-xl w-96 mt-12">
+    <h1 class="text-2xl font-bold mb-8 text-purple-600">Add Car</h1>
     <label for="Type">Type:</label>
     <input type="text" id="Type" class="box-border block mb-5 w-full py-2 px-3 text-lg border-2 border-gray-400 bg-gray-200 rounded hover:border-purple-500" bind:value={Type} />
     
@@ -33,7 +33,7 @@
     <label for="model">Model:</label>
     <input type="text" id="model" class="box-border block mb-5 w-full py-2 px-3 text-lg border-2 border-gray-400 bg-gray-200 rounded hover:border-purple-500" bind:value={model} />
     
-    <button type="submit" class="block p-4 text-base bg-blue-300 border border-blue-300 rounded hover:bg-purple-300 focus:bg-orange-300">ADD</button>
+    <button type="submit" class="bg-purple-600 text-white rounded py-2 px-4 shadow-lg">ADD</button>
     </form>
 </div>
 
